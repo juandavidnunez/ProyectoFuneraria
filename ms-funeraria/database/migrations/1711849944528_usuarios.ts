@@ -11,7 +11,7 @@ export default class extends BaseSchema {
       table.string('password', 180).notNullable()
 
       //foreign keys
-      table.integer('role_id').unsigned()
+      table.integer('rol_id').unsigned()
                              .references('roles.id')
                              .onDelete('CASCADE')
 
