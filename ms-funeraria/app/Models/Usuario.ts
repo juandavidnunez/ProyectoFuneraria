@@ -5,6 +5,18 @@ export default class Usuario extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  @column()
+  public email: string
+
+  @column()
+  public password: string
+
+  @column()
+  public name: string
+
+  @column()
+  public rol_id: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

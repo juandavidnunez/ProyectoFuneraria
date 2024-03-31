@@ -7,6 +7,17 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
 
+
+
+      //foreign key
+
+      table.integer('rol_id').unsigned()
+                             .references('roles.id')
+                             .onDelete('CASCADE')
+      table.integer('permiso_id').unsigned()
+                                 .references('permisos.id')
+                                 .onDelete('CASCADE')
+
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
