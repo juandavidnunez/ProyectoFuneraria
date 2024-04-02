@@ -4,6 +4,7 @@ import Usuario from './Usuario'
 import Permiso from './Permiso'
 
 export default class Rol extends BaseModel {
+  public static table = "roles"
   @column({ isPrimary: true })
   public id: number
 
