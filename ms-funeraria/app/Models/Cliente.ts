@@ -4,6 +4,7 @@ import Titular from './Titular'
 import Beneficiario from './Beneficiario'
 
 export default class Cliente extends BaseModel {
+  table = 'clientes'
   @column({ isPrimary: true })
   public id: number
 

@@ -5,6 +5,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Data
 @Document
 public class User {
@@ -13,6 +15,7 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private String token;
     @DBRef
     private Role role;
 
@@ -24,7 +27,10 @@ public class User {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.token = null;
     }
+
+
 
     public Role getRole() {
         return role;
@@ -64,5 +70,15 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    @JsonIgnore
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
