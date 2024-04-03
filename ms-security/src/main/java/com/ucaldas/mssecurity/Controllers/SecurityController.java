@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.io.IOException;
 
 
@@ -71,6 +72,47 @@ public class SecurityController {
             }
         }
         return token;
+    }
+
+    @PutMapping("/reesetpassword")
+    public String reseetPass(@RequestBody User theUser,
+                        final HttpServletResponse response) throws IOException{
+        String token = "";
+        User theActualUser = this.theUserRepository.getUserByEmail(theUser.getEmail());
+        if (theActualUser != null) {
+
+                token = EmailSender.generateRandomWord();
+                EmailSender emailSender = new EmailSender();
+                theActualUser.setToken(token);
+                this.theUserRepository.save(theActualUser);
+                emailSender.sendEmail(theActualUser.getEmail(), token);
+                
+            }else {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid credentials");
+            }
+    
+        return "message: 'Email sent to your email address'";
+    }
+
+    @PutMapping("/changepassword/{id}")
+    public String changePassword(@PathVariable String id, @RequestBody java.util.Map<String, String> requestBody,
+                             final HttpServletResponse response) throws IOException{
+        User theActualUser = this.theUserRepository
+                                .findById(id)
+                                .orElse(null);
+        String token = requestBody.get("token");
+        System.err.println(token);
+        if (theActualUser != null) {
+            if (theActualUser.getToken().equals(token)) {
+                theActualUser.setPassword(theEncryptionService.convertSHA256(requestBody.get("password")));
+                theActualUser.setToken(null);
+                this.theUserRepository.save(theActualUser);
+            }else {
+
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "INVALID TOKEN");
+            }
+        }
+        return "message: 'Password changed successfully'";
     }
     
 }
