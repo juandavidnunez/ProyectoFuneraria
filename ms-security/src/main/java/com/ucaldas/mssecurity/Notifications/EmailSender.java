@@ -45,7 +45,7 @@ public class EmailSender
 
     public void sendEmail(String email, String random)
     {
-        Map<String, String> envVars = getEnvVariables(".env");
+        Map<String, String> envVars = getEnvVariables("../.env");
 
         // Puede obtener la cadena de conexión del recurso en Azure Portal.
         String connectionString = envVars.get("CONNECTION_STRING");
