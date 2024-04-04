@@ -9,3 +9,5 @@ import "./routes/beneficiarios";
 import "./routes/clientes";
 import "./routes/conductores";
 import "./routes/titulares";
+import "./routes/departamentos";
+import "./routes/ciudades";
