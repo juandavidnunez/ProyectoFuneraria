@@ -11,3 +11,5 @@ import "./routes/conductores";
 import "./routes/titulares";
 import "./routes/departamentos";
 import "./routes/ciudades";
+import "./routes/sedes";
+import "./routes/salas";

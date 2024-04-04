@@ -1,15 +1,17 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'ciudads'
+  protected tableName = 'salas'
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.string('nombre',60).notNullable
-      // foreign key
-      table.integer('departamento_id').unsigned()
-                                      .references('departamentos.id')
+      table.string('nombre',10).notNullable
+      table.integer('capacidad').notNullable
+      table.boolean('disponibilidad').notNullable
+      //Foreing Key
+      table.integer('sedes_id').unsigned()
+                                      .references('sedes.id')
                                       .notNullable()
 
       /**
