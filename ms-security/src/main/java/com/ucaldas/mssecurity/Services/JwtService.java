@@ -22,6 +22,7 @@ public class JwtService {
     private Long expiration; // Tiempo de expiración del token en milisegundos.
     private Key secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
+
     public String generateToken(User theUser) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expiration);

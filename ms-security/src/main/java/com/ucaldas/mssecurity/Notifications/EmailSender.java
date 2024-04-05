@@ -3,7 +3,12 @@ import com.azure.communication.email.*;
 import com.azure.communication.email.models.*;
 import com.azure.core.util.polling.PollResponse;
 import com.azure.core.util.polling.SyncPoller;
+import com.ucaldas.mssecurity.Services.JwtService;
+
 import java.util.Random;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -17,7 +22,6 @@ import java.util.Map;
 
 public class EmailSender 
 {
-
     public static Map<String, String> getEnvVariables(String envFilePath) {
         Map<String, String> envVars = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader(envFilePath))) {
@@ -43,13 +47,18 @@ public class EmailSender
         return envVars;
     }
 
+
     public void sendEmail(String email, String random)
-    {
-        Map<String, String> envVars = getEnvVariables("../.env");
+    { 
+
+        Map<String, String> env = getEnvVariables(".env");
 
         // Puede obtener la cadena de conexión del recurso en Azure Portal.
-        String connectionString = envVars.get("CONNECTION_STRING");
-        String senderAddress = envVars.get("SENDER_ADDRESS");
+        String connectionString = env.get("CONNECTION_STRING");
+        String senderAddress = env.get("SENDER_ADDRESS");
+
+        System.err.println("Connection String: " + connectionString);
+        System.err.println("Sender Address: " + senderAddress);
 
         EmailClient emailClient = new EmailClientBuilder().connectionString(connectionString).buildClient();
 
@@ -87,5 +96,4 @@ public class EmailSender
         return sb.toString();
     }
 
-    
 }
