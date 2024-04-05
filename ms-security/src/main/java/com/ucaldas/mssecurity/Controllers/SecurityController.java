@@ -49,7 +49,7 @@ public class SecurityController {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid credentials");
             }
         }
-        return Map.of("id", theActualUser.get_id());
+        return Map.of("id", theActualUser.get_id(), "token", token);
     }
 
     @PutMapping("/secondauth")

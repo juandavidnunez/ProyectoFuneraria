@@ -22,9 +22,8 @@ export default class UsuariosController {
   public async secondAuth({request, response }: HttpContextContract) {
     try {
       let body = request.body()
-      console.log(body)
       // Hacer una solicitud POST a la API de Adonis
-      const adonisResponse = await axios.put('http://localhost:8181/api/public/security/secondauth/660bc7d387dd9b797a08017f', {token: body.token})
+      const adonisResponse = await axios.put('http://localhost:8181/api/public/security/secondauth', {token: body.token, id : body.id})
 
       // Devolver la respuesta de Adonis
       response.status(adonisResponse.status).send(adonisResponse.data)
