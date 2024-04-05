@@ -15,6 +15,9 @@ export default class Administrador extends BaseModel {
   @column()
   public age: number
 
+  @column()
+  public usuario_id: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

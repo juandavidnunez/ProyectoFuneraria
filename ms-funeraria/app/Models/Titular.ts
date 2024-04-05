@@ -21,6 +21,9 @@ export default class Titular extends BaseModel {
   @column()
   public cliente_id: number
 
+  @column()
+  public usuario_id: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

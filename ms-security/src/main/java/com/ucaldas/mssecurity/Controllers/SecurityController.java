@@ -1,5 +1,6 @@
 package com.ucaldas.mssecurity.Controllers;
 import com.ucaldas.mssecurity.Notifications.EmailSender;
+import java.util.Map;
 
 
 
@@ -29,7 +30,7 @@ public class SecurityController {
     private JwtService theJwtService;
 
     @PostMapping("/login")
-    public String login(@RequestBody User theUser,
+    public Map <String, String> login(@RequestBody User theUser,
                         final HttpServletResponse response) throws IOException{
         String token = "";
         User theActualUser = this.theUserRepository.getUserByEmail(theUser.getEmail());
@@ -48,16 +49,17 @@ public class SecurityController {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid credentials");
             }
         }
-        return "message: 'Email sent to your email address'";
+        return Map.of("id", theActualUser.get_id());
     }
 
-    @PutMapping("/secondauth/{id}")
-    public String secondAuth(@PathVariable String id, @RequestBody String data,
+    @PutMapping("/secondauth")
+    public String secondAuth(@RequestBody Map<String, String> requestBody,
                              final HttpServletResponse response) throws IOException{
+        String id = requestBody.get("id");
         User theUser = this.theUserRepository
                                 .findById(id)
                                 .orElse(null);
-        String token = data;
+        String token = requestBody.get("token");
         User theActualUser = this.theUserRepository.getUserByEmail(theUser.getEmail());
         if (theActualUser != null) {
             if (theActualUser.getToken().equals(token)) {
@@ -65,8 +67,8 @@ public class SecurityController {
                 theActualUser.setToken(null);
                 this.theUserRepository.save(theActualUser);
             }else {
-                theActualUser.setToken(null);
-                this.theUserRepository.save(theActualUser);
+                // theActualUser.setToken(null);
+                // this.theUserRepository.save(theActualUser);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Second auth failed");
 
             }
