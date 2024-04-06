@@ -6,7 +6,7 @@ export default class UsuariosController {
   public async login({request, response }: HttpContextContract) {
     try {
 
-        let body = request.body()
+      let body = request.body()
       // Hacer una solicitud POST a la API de Adonis
       const adonisResponse = await axios.post('http://localhost:8181/api/public/security/login', {email: body.email, password: body.password})
 

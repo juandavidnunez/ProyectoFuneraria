@@ -97,7 +97,7 @@ public class SecurityController {
     }
 
     @PutMapping("/changepassword/{id}")
-    public String changePassword(@PathVariable String id, @RequestBody java.util.Map<String, String> requestBody,
+    public String changePassword(@PathVariable String id, @RequestBody Map<String, String> requestBody,
                              final HttpServletResponse response) throws IOException{
         User theActualUser = this.theUserRepository
                                 .findById(id)
