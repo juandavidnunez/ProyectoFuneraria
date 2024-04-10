@@ -1,5 +1,4 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Usuario from 'App/Models/Usuario'
 import axios from 'axios'
 
 export default class UsuariosController {
