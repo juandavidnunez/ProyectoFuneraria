@@ -14,3 +14,7 @@ import "./routes/departamentos";
 import "./routes/ciudades";
 import "./routes/sedes";
 import "./routes/salas";
+import "./routes/comentarios";
+import "./routes/chats";
+import "./routes/mensajes";
+
