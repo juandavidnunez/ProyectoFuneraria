@@ -76,7 +76,7 @@ public class SecurityController {
         return token;
     }
 
-    @PutMapping("/reesetpassword")
+    @PutMapping("/reset-password")
     public String reseetPass(@RequestBody User theUser,
                         final HttpServletResponse response) throws IOException{
         String token = "";
@@ -96,7 +96,7 @@ public class SecurityController {
         return "message: 'Email sent to your email address'";
     }
 
-    @PutMapping("/changepassword/{id}")
+    @PutMapping("/change-password/{id}")
     public String changePassword(@PathVariable String id, @RequestBody Map<String, String> requestBody,
                              final HttpServletResponse response) throws IOException{
         User theActualUser = this.theUserRepository
