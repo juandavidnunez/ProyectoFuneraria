@@ -37,6 +37,10 @@ public class UsersController {
     @PostMapping("public")
     public User create(@Valid @RequestBody User theNewUser) {
         if (!isValidEmail(theNewUser.getEmail())) {
+            if (!isValidPassword(theNewUser.getPassword())) {
+                System.err.println("La contraseña no cumple con los requisitos mínimos");
+                return null;
+            }
             System.err.println("El email ya está registrado o no es válido");
             return null;
         }
@@ -130,6 +134,14 @@ public class UsersController {
 
         // Verificar si el email ya está registrado en la base de datos
         return theUserRepository.getUserByEmail(email) == null;
+    }
+
+    public boolean isValidPassword(String password) {
+        if (StringUtils.isEmpty(password)) {
+            return false;
+        }
+        boolean isValidFormat = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$").matcher(password).matches();
+        return isValidFormat;
     }
 
 }
