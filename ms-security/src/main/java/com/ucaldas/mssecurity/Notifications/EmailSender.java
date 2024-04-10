@@ -57,9 +57,6 @@ public class EmailSender
         String connectionString = env.get("CONNECTION_STRING");
         String senderAddress = env.get("SENDER_ADDRESS");
 
-        System.err.println("Connection String: " + connectionString);
-        System.err.println("Sender Address: " + senderAddress);
-
         EmailClient emailClient = new EmailClientBuilder().connectionString(connectionString).buildClient();
 
         EmailAddress toAddress = new EmailAddress(email);
