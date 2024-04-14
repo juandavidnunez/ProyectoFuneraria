@@ -93,6 +93,9 @@ public class UsersController {
                 .orElse(null);
 
         if (theActualUser != null && theActualRole != null) {
+            if (theActualUser.getRole() == theActualRole) {
+                return null;
+            }
             theActualUser.setRole(theActualRole);
             return this.theUserRepository.save(theActualUser);
         } else {

@@ -19,7 +19,7 @@ public class RolePermission {
 
     public String get_id() {
             return _id;
-        }
+    }
 
     public Role getRole() {
             return role;
