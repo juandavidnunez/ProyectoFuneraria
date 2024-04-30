@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Usuario from 'App/Models/Usuario'
 import axios from 'axios'
 
 export default class UsuariosController {
@@ -32,4 +33,48 @@ export default class UsuariosController {
       response.status(error.response?.status || 500).send('Error al consumir la API de Adonis')
     }
   }
+
+  // Crear un nuevo usuario
+
+  public async create({ request }: HttpContextContract) {
+    let body = request.body()
+    const theUsuario = await Usuario.create(body)
+    return theUsuario
+}
+
+// Obtener todos los usuarios 
+
+public async findAll({request}: HttpContextContract) {
+    const page = request.input('page', 1)
+    const perPage = request.input('perPage', 20)
+    let usuario:Usuario[] = await Usuario.query().paginate(page, perPage)
+    return usuario
+}
+
+// Obtener un usuario por id
+
+public async findById({ params }: HttpContextContract) {
+    const theUsuario = await Usuario.findOrFail(params.id)
+    return theUsuario
+}
+
+// Actualizar un usuario por id
+
+public async update({ params, request }: HttpContextContract) {
+    const body = request.body()
+    const theUsuario = await Usuario.findOrFail(params.id)
+    theUsuario.email = body.email
+    theUsuario.password = body.password
+    return theUsuario.save()
+
+}
+
+// Eliminar un usuario por id
+
+public async delete({ params }: HttpContextContract) {
+    const theUsuario = await Usuario.findOrFail(params.id)
+    return theUsuario.delete()
+}
+
+
 }

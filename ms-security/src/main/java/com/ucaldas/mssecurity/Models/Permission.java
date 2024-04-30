@@ -1,6 +1,7 @@
 package com.ucaldas.mssecurity.Models;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -11,10 +12,12 @@ public class Permission {
     private String url;
     private String method;
 
+
     public Permission(String url, String method) {
         this.url = url;
         this.method = method;
     }
+
 
 
     public String get_id() {
@@ -28,6 +31,7 @@ public class Permission {
     public String getMethod() {
         return method;
     }
+
     public void setUrl(String url) {
         this.url = url;
     }

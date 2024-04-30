@@ -1,5 +1,6 @@
 package com.ucaldas.mssecurity.Controllers;
 
+import com.azure.core.annotation.Put;
 import com.ucaldas.mssecurity.Models.Permission;
 import com.ucaldas.mssecurity.Repositories.PermissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/permissions")
+@RequestMapping("/api/permissions")
 public class PermissionsController {
     @Autowired
     private PermissionRepository thePermissionRepository;
@@ -18,10 +19,31 @@ public class PermissionsController {
     public List<Permission> findAll(){
         return this.thePermissionRepository.findAll();
     }
+
+    @PutMapping("{id}")
+    public Permission update(@PathVariable String id, @RequestBody Permission thePermission){
+        Permission thePermissionToUpdate = this.thePermissionRepository
+                .findById(id)
+                .orElse(null);
+        if (thePermissionToUpdate != null) {
+            thePermissionToUpdate.setUrl(thePermission.getUrl());
+            thePermissionToUpdate.setMethod(thePermission.getMethod());
+            return this.thePermissionRepository.save(thePermissionToUpdate);
+        }
+        return null;
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Permission create(@RequestBody Permission theNewPermission){
-        return this.thePermissionRepository.save(theNewPermission);
+        Permission thePermission = this.thePermissionRepository
+                .getPermission(theNewPermission.getUrl(), theNewPermission.getMethod());
+        if (thePermission != null) {
+            System.err.println("Permission already exists");
+            return null;
+        }
+        else
+            return this.thePermissionRepository.save(theNewPermission);
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")

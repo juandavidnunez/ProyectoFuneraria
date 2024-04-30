@@ -1,6 +1,9 @@
 package com.ucaldas.mssecurity.Models;
 
+import org.springframework.data.annotation.Id;
+
 public class Role {
+    @Id
     private String _id;
     private String name;
     private String description;

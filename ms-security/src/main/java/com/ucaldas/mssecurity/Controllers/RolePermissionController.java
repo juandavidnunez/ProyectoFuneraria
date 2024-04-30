@@ -14,7 +14,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/role-permission")
+@RequestMapping("/api/role-permission")
 public class RolePermissionController {
     @Autowired
     private RolePermissionRepository theRolePermissionRepository;
@@ -26,7 +26,7 @@ public class RolePermissionController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("role/{roleId}/permission/{permissionId}")
     public RolePermission create(@PathVariable String roleId,
-                                 @PathVariable String permissionId) {
+            @PathVariable String permissionId) {
         Role theRole = this.theRoleRepository
                 .findById(roleId)
                 .orElse(null);
@@ -36,13 +36,16 @@ public class RolePermissionController {
                 .orElse(null);
 
         if (theRole != null && thePermission != null) {
-            RolePermission newRolePermission = new RolePermission();
-            newRolePermission.setRole(theRole);
-            newRolePermission.setPermission(thePermission);
-            return this.theRolePermissionRepository.save(newRolePermission);
-        } else {
-            return null;
+            if (this.theRolePermissionRepository.getRolePermission(roleId, permissionId) == null) {
+
+                RolePermission newRolePermission = new RolePermission();
+                newRolePermission.setRole(theRole);
+                newRolePermission.setPermission(thePermission);
+                return this.theRolePermissionRepository.save(newRolePermission);
+            }
         }
+        System.err.println("The rolepermission already exists");
+        return null;
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
