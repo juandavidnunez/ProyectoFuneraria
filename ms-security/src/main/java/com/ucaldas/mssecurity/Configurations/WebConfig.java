@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
+public class WebConfig implements WebMvcConfigurer {/*
     @Autowired
     private SecurityInterceptor securityInterceptor;
 
@@ -17,5 +17,5 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(securityInterceptor)
                 .excludePathPatterns("/api/public/**", "/api/users/public/**");
 
-    }
+    }*/
 }
