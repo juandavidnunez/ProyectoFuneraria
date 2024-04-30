@@ -17,4 +17,9 @@ import "./routes/salas";
 import "./routes/comentarios";
 import "./routes/chats";
 import "./routes/mensajes";
+import "./routes/servicios";
+import "./routes/traslados";
+import "./routes/sepulturas";
+import "./routes/cremaciones";
+
 

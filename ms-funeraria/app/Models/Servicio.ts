@@ -1,5 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, HasMany, HasOne, column, hasMany, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import Traslado from './Traslado'
+import Sepultura from './Sepultura'
+import Cremacion from './Cremacion'
 
 export default class Servicio extends BaseModel {
   @column({ isPrimary: true })
@@ -16,6 +19,15 @@ export default class Servicio extends BaseModel {
 
   @column()
   public duracion : string
+
+  @hasMany(() => Traslado)
+  public traslados: HasMany<typeof Traslado>
+
+  @hasOne(() => Sepultura)
+  public sepultura: HasOne<typeof Sepultura>
+
+  @hasOne(() => Cremacion)
+  public cremacion: HasOne<typeof Cremacion>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
