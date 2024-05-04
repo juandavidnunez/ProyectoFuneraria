@@ -8,12 +8,9 @@ export default class extends BaseSchema {
       table.increments('id')
       table.string('ubicacion', 255).notNullable()
       table.dateTime('fecha_hora').notNullable()
-<<<<<<< HEAD:ms-funeraria/database/migrations/1714435238096_cremaciones.ts
 
       table.integer('servicio_id').unsigned().references('servicios.id').onDelete('CASCADE').notNullable()
 
-=======
->>>>>>> 07a784a2a3a30aeff993ffd7433ee42eb48aad4f:ms-funeraria/database/migrations/1712730791579_cremaciones.ts
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
