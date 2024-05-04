@@ -1,13 +1,15 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'comentarios'
+  protected tableName = 'mensajes'
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.string('comentario')
-
+      table.string('contenido')
+      table.integer('user_id')
+      //ForeingKey
+      table.integer('chat_id').unsigned().references('chats.id').notNullable()
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
