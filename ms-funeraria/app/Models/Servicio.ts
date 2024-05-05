@@ -3,6 +3,7 @@ import { BaseModel, HasMany, HasOne, column, hasMany, hasOne } from '@ioc:Adonis
 import Traslado from './Traslado'
 import Sepultura from './Sepultura'
 import Cremacion from './Cremacion'
+import EjecucionServicio from './EjecucionServicio'
 
 export default class Servicio extends BaseModel {
   @column({ isPrimary: true })
@@ -28,6 +29,9 @@ export default class Servicio extends BaseModel {
 
   @hasOne(() => Cremacion)
   public cremacion: HasOne<typeof Cremacion>
+  
+  @hasMany(() => EjecucionServicio)
+  public ejecucionservicios: HasMany<typeof EjecucionServicio>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

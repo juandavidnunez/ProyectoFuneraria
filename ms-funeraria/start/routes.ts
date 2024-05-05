@@ -21,5 +21,6 @@ import "./routes/servicios";
 import "./routes/traslados";
 import "./routes/sepulturas";
 import "./routes/cremaciones";
+import "./routes/ejecucion_servicio";
 
 
