@@ -22,5 +22,8 @@ import "./routes/traslados";
 import "./routes/sepulturas";
 import "./routes/cremaciones";
 import "./routes/ejecucion_servicio";
-
+import "./routes/planes";
+import "./routes/serviciosxplanes";
+import "./routes/pagos";
+import "./routes/suscripciones";
 

@@ -3,6 +3,7 @@ import { BaseModel, HasMany, HasOne, column, hasMany, hasOne } from '@ioc:Adonis
 import Titular from './Titular'
 import Beneficiario from './Beneficiario'
 import EjecucionServicio from './EjecucionServicio'
+import Suscripcion from './Suscripcion'
 
 export default class Cliente extends BaseModel {
   table = 'clientes'
@@ -41,6 +42,11 @@ export default class Cliente extends BaseModel {
     foreignKey: 'cliente_id'
   })
   public ejecucionservicios: HasMany<typeof EjecucionServicio>
+
+  @hasMany(() => Suscripcion, {
+    foreignKey: 'cliente_id'
+  })
+  public suscripciones: HasMany<typeof Suscripcion>
 
   
   @column.dateTime({ autoCreate: true })
