@@ -1,11 +1,13 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Conductor from 'App/Models/Conductor'
+import { conductorValidation } from 'App/Validators/ConductoresValidator'
+
 
 export default class ConductoresController {
   // Create a new driver
 
   public async create({ request }: HttpContextContract) {
-    let body = request.body()
+    const body = await request.validate(conductorValidation)
     const theConductor = await Conductor.create(body)
     return theConductor
   }
@@ -29,12 +31,12 @@ export default class ConductoresController {
   // Update a driver by id
 
   public async update({ params, request }: HttpContextContract) {
-    const body = request.body()
+    const body = await request.validate(conductorValidation)
     const theConductor = await Conductor.findOrFail(params.id)
     theConductor.nombre = body.nombre
     theConductor.apellido = body.apellido
     theConductor.cedula = body.cedula
-    theConductor.telefono = body.telefono
+    theConductor.telefono = body.telefono ?? theConductor.telefono
     return theConductor.save()
   }
 

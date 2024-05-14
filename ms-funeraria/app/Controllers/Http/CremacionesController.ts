@@ -7,15 +7,7 @@ export default class CremacionesController {
   //create a new cremacion
 
   public async create({ request }: HttpContextContract) {
-    const body = request.only(['ubicacion', 'fecha_hora', 'servicio_id'])
-
-    // Validar la solicitud utilizando el esquema de validación
-    await request.validate({
-      schema: cremacionValidation,
-      data: body,
-    })
-
-    // Crear la nueva cremacion
+    const body = await request.validate(cremacionValidation)
     const theCremacion = await Cremacion.create(body)
     return theCremacion
   }
@@ -39,19 +31,11 @@ export default class CremacionesController {
   // Update a cremacion by id
 
   public async update({ params, request }: HttpContextContract) {
-    const body = request.only(['ubicacion', 'fecha_hora'])
+    const body = await request.validate(cremacionValidation)
     const theCremacion = await Cremacion.findOrFail(params.id)
-
-    // Validar la solicitud utilizando el esquema de validación
-    await request.validate({
-      schema: cremacionValidation,
-      data: body,
-    })
-
-    // Actualizar la sepultura
-    theCremacion.merge(body)
-    await theCremacion.save()
-    return theCremacion
+    theCremacion.ubicacion = body.ubicacion
+    theCremacion.fecha_hora = body.fecha_hora
+    return theCremacion.save()
   }
 
   // Delete a cremacion by id

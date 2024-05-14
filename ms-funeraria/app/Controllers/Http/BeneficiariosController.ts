@@ -7,19 +7,10 @@ export default class BeneficiariosController {
   // Create a new beneficiary
 
   public async create({ request }: HttpContextContract) {
-    // Obtener el cuerpo de la solicitud
-    const body = request.only(['nombre', 'apellido', 'cedula', 'telefono', 'titular_id', 'cliente_id'])
-
-    // Validar la solicitud utilizando el esquema de validación
-    await request.validate({
-      schema: beneficiarioValidation,
-      data: body,
-    })
-
-    // Crear el nuevo beneficiario
+    const body = await request.validate(beneficiarioValidation);
     const theBeneficiario = await Beneficiario.create(body)
     return theBeneficiario
-  }
+}
 
   // Get all beneficiaries
 
@@ -40,19 +31,13 @@ export default class BeneficiariosController {
   // Update a beneficiary by id
 
   public async update({ params, request }: HttpContextContract) {
-    const body = request.only(['nombre', 'apellido', 'cedula', 'telefono', 'titular_id', 'cliente_id'])
+    const body = await request.validate(beneficiarioValidation);
     const theBeneficiario = await Beneficiario.findOrFail(params.id)
-
-    // Validar la solicitud utilizando el esquema de validación
-    await request.validate({
-      schema: beneficiarioValidation,
-      data: body,
-    })
-
-    // Actualizar la sepultura
-    theBeneficiario.merge(body)
-    await theBeneficiario.save()
-    return theBeneficiario
+    theBeneficiario.nombre = body.nombre
+    theBeneficiario.apellido = body.apellido
+    theBeneficiario.cedula = body.cedula
+    theBeneficiario.telefono = body.telefono
+    return theBeneficiario.save()
   }
 
   // Delete a beneficiary by id

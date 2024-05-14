@@ -1,10 +1,12 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Comentario from 'App/Models/Comentario'
+import { comentarioValidation } from 'App/Validators/ComentariosValidator'
+
 
 export default class EjecucionServiciosController {
   // Create a new Comentario
   public async create({ request }: HttpContextContract) {
-    let body = request.body()
+    const body = await request.validate(comentarioValidation)
     const theComentario = await Comentario.create(body)
     return theComentario
   }
@@ -33,7 +35,7 @@ export default class EjecucionServiciosController {
   // Update a comentario by id
 
   public async update({ params, request }: HttpContextContract) {
-    const body = request.body()
+    const body = await request.validate(comentarioValidation)
     const theComentario = await Comentario.findOrFail(params.id)
     theComentario.contenido = body.contenido
     return theComentario.save()

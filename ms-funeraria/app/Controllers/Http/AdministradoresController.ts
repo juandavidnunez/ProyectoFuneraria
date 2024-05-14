@@ -6,18 +6,10 @@ export default class AdministradoresController {
   // Create a new administrator
 
   public async create({ request }: HttpContextContract) {
-    const body = request.only(['email', 'name', 'age', 'usuario_id'])
-
-    // Validar la solicitud utilizando el esquema de validación
-    await request.validate({
-      schema: administradorValidation,
-      data: body,
-    })
-
-    // Crear la nueva sepultura
-    const theSepultura = await Administrador.create(body)
-    return theSepultura
-  }
+    const body = await request.validate(administradorValidation);
+    const theAdministrador = await Administrador.create(body)
+    return theAdministrador
+}
 
   // Get all administrators
 
@@ -38,20 +30,13 @@ export default class AdministradoresController {
   // Update an administrator by id
 
   public async update({ params, request }: HttpContextContract) {
-    const body = request.only(['email', 'name', 'age', 'usuario_id'])
+    const body = await request.validate(administradorValidation);
     const theAdministrador = await Administrador.findOrFail(params.id)
-
-    // Validar la solicitud utilizando el esquema de validación
-    await request.validate({
-      schema: administradorValidation,
-      data: body,
-    })
-
-    // Actualizar la sepultura
-    theAdministrador.merge(body)
-    await theAdministrador.save()
-    return theAdministrador
-  }
+    theAdministrador.email = body.email
+    theAdministrador.name = body.name
+    theAdministrador.age = body.age
+    return theAdministrador.save()
+}
 
   // Delete an administrator by id
 

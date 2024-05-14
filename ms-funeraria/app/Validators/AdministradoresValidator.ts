@@ -1,6 +1,7 @@
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 
-export const administradorValidation = schema.create({
+export const administradorValidation = {
+  schema: schema.create({
     name: schema.string({}, [
       rules.required(),
       rules.maxLength(255)
@@ -18,7 +19,7 @@ export const administradorValidation = schema.create({
       rules.required(),
       rules.exists({ table: 'usuarios', column: 'id' }) // Asegúrate de ajustar la tabla y columna según corresponda
     ])
-  })
+  })}
 
 
 

@@ -1,10 +1,10 @@
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 
-export const chatValidation = {
+export const departamentoValidation = {
     schema: schema.create({
-        Eservicio_id: schema.string({}, [
+        nombre: schema.string({ trim: true }, [
           rules.required(),
-          rules.maxLength(2500),
+          rules.maxLength(255),
         ]),
       })
-} 
+}

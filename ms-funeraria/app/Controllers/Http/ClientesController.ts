@@ -7,18 +7,10 @@ export default class ClientesController {
   // Create a new client
 
   public async create({ request }: HttpContextContract) {
-    const body = request.only(['nombre', 'apellido', 'cedula', 'telefono', 'email', 'usuario_id'])
-
-    // Validar la solicitud utilizando el esquema de validación
-    await request.validate({
-      schema: clienteValidation,
-      data: body,
-    })
-
-    // Crear el nuevo cliente
+    const body = await request.validate(clienteValidation);
     const theCliente = await Cliente.create(body)
     return theCliente
-  }
+}
 
   // Get all clients
 
@@ -39,19 +31,14 @@ export default class ClientesController {
   // Update a client by id
 
   public async update({ params, request }: HttpContextContract) {
-    const body = request.only(['nombre', 'apellido', 'cedula', 'telefono', 'email', 'usuario_id'])
+    const body = await request.validate(clienteValidation);
     const theCliente = await Cliente.findOrFail(params.id)
-
-    // Validar la solicitud utilizando el esquema de validación
-    await request.validate({
-      schema: clienteValidation,
-      data: body,
-    })
-
-    // Actualizar la sepultura
-    theCliente.merge(body)
-    await theCliente.save()
-    return theCliente
+    theCliente.nombre = body.nombre
+    theCliente.apellido = body.apellido
+    theCliente.cedula = body.cedula
+    theCliente.telefono = body.telefono ?? theCliente.telefono
+    theCliente.email = body.email
+    return theCliente.save()
   }
 
   // Delete a client by id

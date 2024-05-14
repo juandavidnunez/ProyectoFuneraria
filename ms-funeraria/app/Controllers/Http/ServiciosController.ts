@@ -6,18 +6,10 @@ export default class ServiciosController {
   //create a new servicio
 
   public async create({ request }: HttpContextContract) {
-    const body = request.only(['nombre', 'precio', 'descripcion', 'duracion'])
-
-    // Validar la solicitud utilizando el esquema de validación
-    await request.validate({
-      schema: servicioValidation,
-      data: body,
-    })
-
-    // Crear el nuevo servicio
-    const theServicio = await Servicio.create(body)
-    return theServicio
-  }
+    const body = await request.validate(servicioValidation);
+    const theServicio: Servicio = await Servicio.create(body);
+    return theServicio;
+    }
 
   // Get all servicios
   public async findAll({ request }: HttpContextContract) {
@@ -37,20 +29,14 @@ export default class ServiciosController {
   // Update a servicios by id
 
   public async update({ params, request }: HttpContextContract) {
-    const body = request.only(['nombre', 'precio', 'descripcion', 'duracion'])
+    const body = await request.validate(servicioValidation);
     const theServicio = await Servicio.findOrFail(params.id)
-
-    // Validar la solicitud utilizando el esquema de validación
-    await request.validate({
-      schema: servicioValidation,
-      data: body,
-    })
-
-    // Actualizar el servicio
-    theServicio.merge(body)
-    await theServicio.save()
-    return theServicio
-  }
+    theServicio.nombre = body.nombre
+    theServicio.precio = body.precio
+    theServicio.descripcion = body.descripcion ?? theServicio.descripcion
+    theServicio.duracion = body.duracion ?? theServicio.duracion
+    return theServicio.save()
+}
 
   // Delete a servicios by id
 

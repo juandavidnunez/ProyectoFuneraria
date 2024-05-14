@@ -7,17 +7,9 @@ export default class TrasladosController {
   //create a new traslado
 
   public async create({ request }: HttpContextContract) {
-    const body = request.only(['origen', 'destino', 'fecha_hora', 'tipo_vehiculo', 'servicio_id'])
-
-    // Validar la solicitud utilizando el esquema de validación
-    await request.validate({
-      schema: trasladoValidation,
-      data: body,
-    })
-
-    // Crear la nueva sepultura
-    const theSepultura = await Traslado.create(body)
-    return theSepultura
+    const body = await request.validate(trasladoValidation)
+    const theTraslado = await Traslado.create(body)
+    return theTraslado
   }
 
   // Get all traslados
@@ -39,20 +31,15 @@ export default class TrasladosController {
   // Update a traslados by id
 
   public async update({ params, request }: HttpContextContract) {
-    const body = request.only(['origen', 'destino', 'fecha_hora', 'tipo_vehiculo'])
+    const body = await request.validate(trasladoValidation)
     const theTraslado = await Traslado.findOrFail(params.id)
-
-    // Validar la solicitud utilizando el esquema de validación
-    await request.validate({
-      schema: trasladoValidation,
-      data: body,
-    })
-
-    // Actualizar la sepultura
-    theTraslado.merge(body)
-    await theTraslado.save()
-    return theTraslado
+    theTraslado.origen = body.origen
+    theTraslado.destino = body.destino
+    theTraslado.fecha_hora = body.fecha_hora
+    theTraslado.tipo_vehiculo = body.tipo_vehiculo
+    return theTraslado.save()
   }
+
   // Delete a traslados by id
 
   public async delete({ params, response }: HttpContextContract) {

@@ -1,6 +1,7 @@
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 
-export const trasladoValidation = schema.create({
+export const trasladoValidation = {
+  schema: schema.create({
     origen: schema.string({}, [
       rules.required(),
       rules.maxLength(30)
@@ -21,4 +22,5 @@ export const trasladoValidation = schema.create({
       rules.exists({ table: 'servicios', column: 'id' })
     ])
   })
+}
 

@@ -1,10 +1,11 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import EjecucionServicio from 'App/Models/EjecucionServicio'
+import { ejecucionServicioValidation } from 'App/Validators/EjecucionServicioValidator'
 
 export default class EjecucionServiciosController {
   // Create a new Ejecucion Servicio
   public async create({ request }: HttpContextContract) {
-    let body = request.body()
+    const body = await request.validate(ejecucionServicioValidation)
     const theEjecucionServicio = await EjecucionServicio.create(body)
     return theEjecucionServicio
   }
@@ -31,7 +32,7 @@ export default class EjecucionServiciosController {
   // Update a driver by id
 
   public async update({ params, request }: HttpContextContract) {
-    const body = request.body()
+    const body = await request.validate(ejecucionServicioValidation)
     const theEjecucionServicio = await EjecucionServicio.findOrFail(params.id)
     theEjecucionServicio.cliente_id = body.cliente_id
     theEjecucionServicio.servicio_id = body.servicio_id

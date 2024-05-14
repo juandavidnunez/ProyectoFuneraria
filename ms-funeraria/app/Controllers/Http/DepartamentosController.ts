@@ -1,10 +1,12 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Departamento from 'App/Models/Departamento'
+import { departamentoValidation } from 'App/Validators/DepartamentosValidator'
+
 
 export default class DepartamentosController {
   // Create a new Departament
   public async create({ request }: HttpContextContract) {
-    let body = request.body()
+    const body = await request.validate(departamentoValidation)
     const theDepartamento = await Departamento.create(body)
     return theDepartamento
   }
@@ -27,7 +29,7 @@ export default class DepartamentosController {
   // Update a driver by id
 
   public async update({ params, request }: HttpContextContract) {
-    const body = request.body()
+    const body = await request.validate(departamentoValidation)
     const theDepartamento = await Departamento.findOrFail(params.id)
     theDepartamento.nombre = body.nombre
     return theDepartamento.save()

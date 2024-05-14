@@ -7,19 +7,10 @@ export default class ChatsController {
   // Create
 
   public async create({ request }: HttpContextContract) {
-    // Obtener el cuerpo de la solicitud
-    const body = request.only(['Eservicio_id'])
-
-    // Validar la solicitud utilizando el esquema de validación
-    await request.validate({
-      schema: chatValidation,
-      data: body,
-    })
-
-    // Crear el nuevo beneficiario
+    const body = await request.validate(chatValidation);
     const theChat = await Chat.create(body)
     return theChat
-  } 
+}
 
   // Get
 

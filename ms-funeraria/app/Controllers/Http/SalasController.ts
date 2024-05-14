@@ -1,10 +1,12 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Sala from 'App/Models/Sala'
+import { salaValidation } from 'App/Validators/SalasValidator'
+
 
 export default class SalasController {
   // Create a new sede
   public async create({ request }: HttpContextContract) {
-    let body = request.body()
+    const body = await request.validate(salaValidation)
     const theSala = await Sala.create(body)
     return theSala
   }
@@ -27,11 +29,11 @@ export default class SalasController {
   // Update a client by id
 
   public async update({ params, request }: HttpContextContract) {
-    const body = request.body()
+    const body = await request.validate(salaValidation)
     const theSala = await Sala.findOrFail(params.id)
     theSala.nombre = body.nombre
     theSala.capacidad = body.capacidad
-    theSala.disponibilidad = body.disponibilidad
+    theSala.disponibilidad = body.disponibilidad ?? theSala.disponibilidad
     theSala.sedes_id = body.sede_id
     return theSala.save()
   }

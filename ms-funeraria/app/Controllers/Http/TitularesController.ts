@@ -1,11 +1,13 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Titular from 'App/Models/Titular'
+import { titularValidation } from 'App/Validators/TitularesValidator'
+
 
 export default class TitularesController {
   // Create a new owner
 
   public async create({ request }: HttpContextContract) {
-    let body = request.body()
+    const body = await request.validate(titularValidation)
     const theTitular = await Titular.create(body)
     return theTitular
   }
@@ -29,7 +31,7 @@ export default class TitularesController {
   // Update an owner by id
 
   public async update({ params, request }: HttpContextContract) {
-    const body = request.body()
+    const body = await request.validate(titularValidation)
     const theTitular = await Titular.findOrFail(params.id)
     theTitular.nombre = body.nombre
     theTitular.apellido = body.apellido
