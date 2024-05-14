@@ -11,39 +11,39 @@ export default class Servicio extends BaseModel {
   public id: number
 
   @column()
-  public nombre : string
+  public nombre: string
 
   @column()
-  public precio : number
+  public precio: number
 
   @column()
-  public descripcion : string
+  public descripcion: string
 
   @column()
-  public duracion : string
+  public duracion: string
 
   @hasMany(() => Traslado, {
-    foreignKey: 'servicio_id'
+    foreignKey: 'servicio_id',
   })
   public traslados: HasMany<typeof Traslado>
 
   @hasOne(() => Sepultura, {
-    foreignKey: 'servicio_id'
+    foreignKey: 'servicio_id',
   })
   public sepultura: HasOne<typeof Sepultura>
 
   @hasOne(() => Cremacion, {
-    foreignKey: 'servicio_id'
+    foreignKey: 'servicio_id',
   })
   public cremacion: HasOne<typeof Cremacion>
-  
+
   @hasMany(() => EjecucionServicio, {
-    foreignKey: 'servicio_id'
+    foreignKey: 'servicio_id',
   })
   public ejecucionservicios: HasMany<typeof EjecucionServicio>
 
   @hasMany(() => ServicioxPlan, {
-    foreignKey: 'servicio_id'
+    foreignKey: 'servicio_id',
   })
   public serviciosxplanes: HasMany<typeof ServicioxPlan>
 

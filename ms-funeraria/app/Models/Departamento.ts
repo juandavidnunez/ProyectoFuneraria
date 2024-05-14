@@ -16,7 +16,7 @@ export default class Departamento extends BaseModel {
   public updatedAt: DateTime
 
   @hasMany(() => Ciudad, {
-    foreignKey: 'departamento_id'
+    foreignKey: 'departamento_id',
   })
   public ciudades: HasMany<typeof Ciudad>
 }

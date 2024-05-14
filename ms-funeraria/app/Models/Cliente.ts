@@ -6,7 +6,7 @@ import EjecucionServicio from './EjecucionServicio'
 import Suscripcion from './Suscripcion'
 
 export default class Cliente extends BaseModel {
-  table = 'clientes'
+  public static table = 'clientes'
   @column({ isPrimary: true })
   public id: number
 
@@ -29,26 +29,25 @@ export default class Cliente extends BaseModel {
   public usuario_id: number
 
   @hasOne(() => Titular, {
-    foreignKey: 'cliente_id'
+    foreignKey: 'cliente_id',
   })
   public titular: HasOne<typeof Titular>
 
   @hasMany(() => Beneficiario, {
-    foreignKey: 'cliente_id'
+    foreignKey: 'cliente_id',
   })
   public beneficiarios: HasMany<typeof Beneficiario>
 
   @hasMany(() => EjecucionServicio, {
-    foreignKey: 'cliente_id'
+    foreignKey: 'cliente_id',
   })
   public ejecucionservicios: HasMany<typeof EjecucionServicio>
 
   @hasMany(() => Suscripcion, {
-    foreignKey: 'cliente_id'
+    foreignKey: 'cliente_id',
   })
   public suscripciones: HasMany<typeof Suscripcion>
 
-  
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

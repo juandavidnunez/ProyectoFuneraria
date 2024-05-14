@@ -24,9 +24,8 @@ export default class Sala extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @belongsTo(() => Sede,{
+  @belongsTo(() => Sede, {
     foreignKey: 'sede_id',
   })
   public sede: BelongsTo<typeof Sede>
-
 }

@@ -20,8 +20,8 @@ export default class Traslado extends BaseModel {
 
   @column()
   public servicio_id: number
-  
-  @belongsTo(() => Servicio,{
+
+  @belongsTo(() => Servicio, {
     foreignKey: 'servicio_id',
   })
   public servicio: BelongsTo<typeof Servicio>

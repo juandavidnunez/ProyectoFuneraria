@@ -6,12 +6,11 @@ import Conductor from './Conductor'
 import Titular from './Titular'
 
 export default class Usuario extends BaseModel {
+  @column()
+  public email: string
 
   @column()
-  public email:string
-
-  @column()
-  public password:string
+  public password: string
 
   @hasOne(() => Administrador)
   public administrador: HasOne<typeof Administrador>
@@ -30,6 +29,4 @@ export default class Usuario extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
-
-
 }

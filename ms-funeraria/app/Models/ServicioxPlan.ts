@@ -7,12 +7,12 @@ export default class ServicioxPlan extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
-  @belongsTo(() => Servicio,{
+  @belongsTo(() => Servicio, {
     foreignKey: 'servicio_id',
   })
   public servicio: BelongsTo<typeof Servicio>
 
-  @belongsTo(() => Plan,{
+  @belongsTo(() => Plan, {
     foreignKey: 'plan_id',
   })
   public plan: BelongsTo<typeof Plan>

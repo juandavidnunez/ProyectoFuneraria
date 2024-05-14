@@ -7,20 +7,19 @@ export default class Comentario extends BaseModel {
   public id: number
 
   @column()
-  public contenido:string
+  public contenido: string
 
   @column()
-  public Eservicio_id:number
+  public Eservicio_id: number
 
-  @belongsTo(() => EjecucionServicio,{
+  @belongsTo(() => EjecucionServicio, {
     foreignKey: 'Eservicio_id',
   })
   public EjecucionServicios: BelongsTo<typeof EjecucionServicio>
-  
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
-
 }

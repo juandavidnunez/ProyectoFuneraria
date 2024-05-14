@@ -7,15 +7,15 @@ export default class Cremacion extends BaseModel {
   public id: number
 
   @column()
-  public ubicacion : string
+  public ubicacion: string
 
   @column()
-  public fecha_hora : DateTime
+  public fecha_hora: DateTime
 
   @column()
   public servicio_id: number
 
-  @belongsTo(() => Servicio,{
+  @belongsTo(() => Servicio, {
     foreignKey: 'servicio_id',
   })
   public servicio: BelongsTo<typeof Servicio>

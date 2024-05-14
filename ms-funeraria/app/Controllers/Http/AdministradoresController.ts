@@ -13,10 +13,10 @@ export default class AdministradoresController {
 
     // Get all administrators
 
-    public async findAll({request}: HttpContextContract) {
+    public async findAll({ request }: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let administradores:Administrador[] = await Administrador.query().paginate(page, perPage)
+        let administradores: Administrador[] = await Administrador.query().paginate(page, perPage)
         return administradores
     }
 

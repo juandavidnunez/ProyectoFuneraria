@@ -8,19 +8,18 @@ export default class Suscripcion extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
-
-  @belongsTo(() => Plan,{
+  @belongsTo(() => Plan, {
     foreignKey: 'plan_id',
   })
   public plan: BelongsTo<typeof Plan>
 
-  @belongsTo(() => Cliente,{
+  @belongsTo(() => Cliente, {
     foreignKey: 'cliente_id',
   })
   public cliente: BelongsTo<typeof Cliente>
 
   @hasMany(() => Pago, {
-    foreignKey: 'suscripcion_id'
+    foreignKey: 'suscripcion_id',
   })
   public planes: HasMany<typeof Pago>
 

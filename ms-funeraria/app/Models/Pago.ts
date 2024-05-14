@@ -6,7 +6,7 @@ export default class Pago extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
-  @belongsTo(() => Suscripcion,{
+  @belongsTo(() => Suscripcion, {
     foreignKey: 'suscripcion_id',
   })
   public suscripcion: BelongsTo<typeof Suscripcion>

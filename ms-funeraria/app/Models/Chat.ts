@@ -6,17 +6,17 @@ import Mensaje from './Mensaje'
 export default class Chat extends BaseModel {
   @column({ isPrimary: true })
   public id: number
-  
+
   @column()
   public Eservicio_id: string
 
-  @belongsTo(() => EjecucionServicio,{
+  @belongsTo(() => EjecucionServicio, {
     foreignKey: 'Eservicio_id',
   })
-  public ejecicuionservicios: BelongsTo<typeof EjecucionServicio> 
+  public ejecicuionservicios: BelongsTo<typeof EjecucionServicio>
 
   @hasMany(() => Mensaje, {
-    foreignKey: 'chat_id'
+    foreignKey: 'chat_id',
   })
   public mensajes: HasMany<typeof Mensaje>
 

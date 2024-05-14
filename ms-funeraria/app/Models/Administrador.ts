@@ -18,7 +18,6 @@ export default class Administrador extends BaseModel {
   @column()
   public usuario_id: number
 
-
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

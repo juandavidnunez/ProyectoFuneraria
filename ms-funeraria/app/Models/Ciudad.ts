@@ -19,13 +19,13 @@ export default class Ciudad extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @belongsTo(() => Departamento,{
+  @belongsTo(() => Departamento, {
     foreignKey: 'departamento_id',
   })
   public departamento: BelongsTo<typeof Departamento>
 
   @hasMany(() => Sede, {
-    foreignKey: 'ciudad_id'
+    foreignKey: 'ciudad_id',
   })
   public sedes: HasMany<typeof Sede>
 }

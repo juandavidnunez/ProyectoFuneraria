@@ -8,30 +8,30 @@ export default class Plan extends BaseModel {
   public id: number
 
   @column()
-  public nombre : string
+  public nombre: string
 
   @column()
-  public precio : number
+  public precio: number
 
   @column()
-  public duracion : number
+  public duracion: number
 
   @column()
-  public descuento : number
+  public descuento: number
 
   @column()
-  public precio_final : number
+  public precio_final: number
 
   @column()
-  public estado : boolean
+  public estado: boolean
 
   @hasMany(() => ServicioxPlan, {
-    foreignKey: 'plan_id'
+    foreignKey: 'plan_id',
   })
   public serviciosxplanes: HasMany<typeof ServicioxPlan>
 
   @hasMany(() => Suscripcion, {
-    foreignKey: 'plan_id'
+    foreignKey: 'plan_id',
   })
   public suscripciones: HasMany<typeof Suscripcion>
 

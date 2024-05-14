@@ -8,19 +8,19 @@ export default class Sede extends BaseModel {
   public id: number
 
   @column()
-  public nombre : string
+  public nombre: string
 
   @column()
-  public direccion : string
+  public direccion: string
 
   @column()
-  public telefono : number
+  public telefono: number
 
   @column()
-  public correo_electronico : string
+  public correo_electronico: string
 
   @column()
-  public ciudad_id : number
+  public ciudad_id: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -28,13 +28,13 @@ export default class Sede extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @belongsTo(() => Ciudad,{
+  @belongsTo(() => Ciudad, {
     foreignKey: 'ciudad_id',
   })
   public ciudades: BelongsTo<typeof Ciudad>
 
   @hasMany(() => Sala, {
-    foreignKey: 'sede_id'
+    foreignKey: 'sede_id',
   })
   public salas: HasMany<typeof Sala>
 }
