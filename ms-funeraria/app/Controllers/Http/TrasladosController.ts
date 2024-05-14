@@ -1,13 +1,23 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Traslado from 'App/Models/Traslado'
+import { trasladoValidation } from 'App/Validators/TrasladosValidator'
+
 
 export default class TrasladosController {
   //create a new traslado
 
   public async create({ request }: HttpContextContract) {
-    let body = request.body()
-    const theTraslado = await Traslado.create(body)
-    return theTraslado
+    const body = request.only(['origen', 'destino', 'fecha_hora', 'tipo_vehiculo', 'servicio_id'])
+
+    // Validar la solicitud utilizando el esquema de validación
+    await request.validate({
+      schema: trasladoValidation,
+      data: body,
+    })
+
+    // Crear la nueva sepultura
+    const theSepultura = await Traslado.create(body)
+    return theSepultura
   }
 
   // Get all traslados
@@ -29,15 +39,20 @@ export default class TrasladosController {
   // Update a traslados by id
 
   public async update({ params, request }: HttpContextContract) {
-    const body = request.body()
-    const theTraslado = await Traslado.findOrFail(params.id)
-    theTraslado.origen = body.origen
-    theTraslado.destino = body.destino
-    theTraslado.fecha_hora = body.fecha_hora
-    theTraslado.tipo_vehiculo = body.tipo_vehiculo
-    return theTraslado.save()
-  }
+    const body = request.only(['origen', 'destino', 'fecha_hora', 'tipo_vehiculo'])
+    const theSepultura = await Traslado.findOrFail(params.id)
 
+    // Validar la solicitud utilizando el esquema de validación
+    await request.validate({
+      schema: trasladoValidation,
+      data: body,
+    })
+
+    // Actualizar la sepultura
+    theSepultura.merge(body)
+    await theSepultura.save()
+    return theSepultura
+  }
   // Delete a traslados by id
 
   public async delete({ params, response }: HttpContextContract) {

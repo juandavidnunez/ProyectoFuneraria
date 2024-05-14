@@ -20,7 +20,7 @@ export default class Servicio extends BaseModel {
   public descripcion: string
 
   @column()
-  public duracion: string
+  public duracion: number
 
   @hasMany(() => Traslado, {
     foreignKey: 'servicio_id',

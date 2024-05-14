@@ -1,11 +1,20 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Sepultura from 'App/Models/Sepultura'
+import { sepulturaValidation } from 'App/Validators/SepulturasValidator'
 
 export default class SepulturasController {
   //create a new sepultura
 
   public async create({ request }: HttpContextContract) {
-    let body = request.body()
+    const body = request.only(['ubicacion', 'fecha_hora', 'servicio_id'])
+
+    // Validar la solicitud utilizando el esquema de validación
+    await request.validate({
+      schema: sepulturaValidation,
+      data: body,
+    })
+
+    // Crear la nueva sepultura
     const theSepultura = await Sepultura.create(body)
     return theSepultura
   }
@@ -28,12 +37,21 @@ export default class SepulturasController {
 
   // Update a sepultura by id
 
+  // Actualizar una sepultura por su ID
   public async update({ params, request }: HttpContextContract) {
-    const body = request.body()
+    const body = request.only(['ubicacion', 'fecha_hora'])
     const theSepultura = await Sepultura.findOrFail(params.id)
-    theSepultura.ubicacion = body.ubicacion
-    theSepultura.fecha_hora = body.fecha_hora
-    return theSepultura.save()
+
+    // Validar la solicitud utilizando el esquema de validación
+    await request.validate({
+      schema: sepulturaValidation,
+      data: body,
+    })
+
+    // Actualizar la sepultura
+    theSepultura.merge(body)
+    await theSepultura.save()
+    return theSepultura
   }
 
   // Delete a sepultura by id

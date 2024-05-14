@@ -1,11 +1,20 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Servicio from 'App/Models/Servicio'
+import { servicioValidation } from 'App/Validators/ServiciosValidator'
 
 export default class ServiciosController {
   //create a new servicio
 
   public async create({ request }: HttpContextContract) {
-    let body = request.body()
+    const body = request.only(['nombre', 'precio', 'descripcion', 'duracion'])
+
+    // Validar la solicitud utilizando el esquema de validación
+    await request.validate({
+      schema: servicioValidation,
+      data: body,
+    })
+
+    // Crear el nuevo servicio
     const theServicio = await Servicio.create(body)
     return theServicio
   }
@@ -28,13 +37,19 @@ export default class ServiciosController {
   // Update a servicios by id
 
   public async update({ params, request }: HttpContextContract) {
-    const body = request.body()
+    const body = request.only(['nombre', 'precio', 'descripcion', 'duracion'])
     const theServicio = await Servicio.findOrFail(params.id)
-    theServicio.nombre = body.nombre
-    theServicio.precio = body.precio
-    theServicio.descripcion = body.descripcion
-    theServicio.duracion = body.duracion
-    return theServicio.save()
+
+    // Validar la solicitud utilizando el esquema de validación
+    await request.validate({
+      schema: servicioValidation,
+      data: body,
+    })
+
+    // Actualizar el servicio
+    theServicio.merge(body)
+    await theServicio.save()
+    return theServicio
   }
 
   // Delete a servicios by id
