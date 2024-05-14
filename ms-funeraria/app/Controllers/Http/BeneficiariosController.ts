@@ -1,11 +1,22 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Beneficiario from 'App/Models/Beneficiario'
+import { beneficiarioValidation } from 'App/Validators/BeneficiariosValidator'
+
 
 export default class BeneficiariosController {
   // Create a new beneficiary
 
   public async create({ request }: HttpContextContract) {
-    let body = request.body()
+    // Obtener el cuerpo de la solicitud
+    const body = request.only(['nombre', 'apellido', 'cedula', 'telefono', 'titular_id', 'cliente_id'])
+
+    // Validar la solicitud utilizando el esquema de validación
+    await request.validate({
+      schema: beneficiarioValidation,
+      data: body,
+    })
+
+    // Crear el nuevo beneficiario
     const theBeneficiario = await Beneficiario.create(body)
     return theBeneficiario
   }
@@ -29,15 +40,19 @@ export default class BeneficiariosController {
   // Update a beneficiary by id
 
   public async update({ params, request }: HttpContextContract) {
-    const body = request.body()
+    const body = request.only(['nombre', 'apellido', 'cedula', 'telefono', 'titular_id', 'cliente_id'])
     const theBeneficiario = await Beneficiario.findOrFail(params.id)
-    theBeneficiario.nombre = body.nombre
-    theBeneficiario.apellido = body.apellido
-    theBeneficiario.cedula = body.cedula
-    theBeneficiario.telefono = body.telefono
-    theBeneficiario.titular_id = body.titular_id
-    theBeneficiario.cliente_id = body.cliente_id
-    return theBeneficiario.save()
+
+    // Validar la solicitud utilizando el esquema de validación
+    await request.validate({
+      schema: beneficiarioValidation,
+      data: body,
+    })
+
+    // Actualizar la sepultura
+    theBeneficiario.merge(body)
+    await theBeneficiario.save()
+    return theBeneficiario
   }
 
   // Delete a beneficiary by id

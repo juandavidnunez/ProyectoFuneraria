@@ -40,7 +40,7 @@ export default class TrasladosController {
 
   public async update({ params, request }: HttpContextContract) {
     const body = request.only(['origen', 'destino', 'fecha_hora', 'tipo_vehiculo'])
-    const theSepultura = await Traslado.findOrFail(params.id)
+    const theTraslado = await Traslado.findOrFail(params.id)
 
     // Validar la solicitud utilizando el esquema de validación
     await request.validate({
@@ -49,9 +49,9 @@ export default class TrasladosController {
     })
 
     // Actualizar la sepultura
-    theSepultura.merge(body)
-    await theSepultura.save()
-    return theSepultura
+    theTraslado.merge(body)
+    await theTraslado.save()
+    return theTraslado
   }
   // Delete a traslados by id
 

@@ -1,13 +1,22 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Administrador from 'App/Models/Administrador'
+import { administradorValidation } from 'App/Validators/AdministradoresValidator'
 
 export default class AdministradoresController {
   // Create a new administrator
 
   public async create({ request }: HttpContextContract) {
-    let body = request.body()
-    const theAdministrador = await Administrador.create(body)
-    return theAdministrador
+    const body = request.only(['email', 'name', 'age', 'usuario_id'])
+
+    // Validar la solicitud utilizando el esquema de validación
+    await request.validate({
+      schema: administradorValidation,
+      data: body,
+    })
+
+    // Crear la nueva sepultura
+    const theSepultura = await Administrador.create(body)
+    return theSepultura
   }
 
   // Get all administrators
@@ -29,12 +38,19 @@ export default class AdministradoresController {
   // Update an administrator by id
 
   public async update({ params, request }: HttpContextContract) {
-    const body = request.body()
+    const body = request.only(['email', 'name', 'age', 'usuario_id'])
     const theAdministrador = await Administrador.findOrFail(params.id)
-    theAdministrador.email = body.email
-    theAdministrador.name = body.name
-    theAdministrador.age = body.age
-    return theAdministrador.save()
+
+    // Validar la solicitud utilizando el esquema de validación
+    await request.validate({
+      schema: administradorValidation,
+      data: body,
+    })
+
+    // Actualizar la sepultura
+    theAdministrador.merge(body)
+    await theAdministrador.save()
+    return theAdministrador
   }
 
   // Delete an administrator by id

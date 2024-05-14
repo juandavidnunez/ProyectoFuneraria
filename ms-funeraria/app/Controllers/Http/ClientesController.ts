@@ -1,11 +1,21 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Cliente from 'App/Models/Cliente'
+import { clienteValidation } from 'App/Validators/ClientesValidator'
+
 
 export default class ClientesController {
   // Create a new client
 
   public async create({ request }: HttpContextContract) {
-    let body = request.body()
+    const body = request.only(['nombre', 'apellido', 'cedula', 'telefono', 'email', 'usuario_id'])
+
+    // Validar la solicitud utilizando el esquema de validación
+    await request.validate({
+      schema: clienteValidation,
+      data: body,
+    })
+
+    // Crear el nuevo cliente
     const theCliente = await Cliente.create(body)
     return theCliente
   }
@@ -29,13 +39,19 @@ export default class ClientesController {
   // Update a client by id
 
   public async update({ params, request }: HttpContextContract) {
-    const body = request.body()
+    const body = request.only(['nombre', 'apellido', 'cedula', 'telefono', 'email', 'usuario_id'])
     const theCliente = await Cliente.findOrFail(params.id)
-    theCliente.nombre = body.nombre
-    theCliente.apellido = body.apellido
-    theCliente.cedula = body.cedula
-    theCliente.telefono = body.telefono
-    return theCliente.save()
+
+    // Validar la solicitud utilizando el esquema de validación
+    await request.validate({
+      schema: clienteValidation,
+      data: body,
+    })
+
+    // Actualizar la sepultura
+    theCliente.merge(body)
+    await theCliente.save()
+    return theCliente
   }
 
   // Delete a client by id

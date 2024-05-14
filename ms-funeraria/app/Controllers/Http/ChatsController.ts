@@ -1,14 +1,25 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Chat from 'App/Models/Chat'
+import { chatValidation } from 'App/Validators/ChatsValidator'
+
 
 export default class ChatsController {
   // Create
 
   public async create({ request }: HttpContextContract) {
-    let body = request.body()
+    // Obtener el cuerpo de la solicitud
+    const body = request.only(['Eservicio_id'])
+
+    // Validar la solicitud utilizando el esquema de validación
+    await request.validate({
+      schema: chatValidation,
+      data: body,
+    })
+
+    // Crear el nuevo beneficiario
     const theChat = await Chat.create(body)
     return theChat
-  }
+  } 
 
   // Get
 
